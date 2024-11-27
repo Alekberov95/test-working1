@@ -1,0 +1,732 @@
+<html><head>
+
+  <script src="/shared/jquery.min.js"></script>
+  
+      <script>
+      function set_validator_errors(){
+          orderValidator.errorTitle = 'Ispravite sljedeće pogreške'; 
+  
+          orderValidator.errorNameField = 'Ime'; 
+          orderValidator.errorNameMess = 'Unesite svoje ime'; 
+          
+          orderValidator.errorPhoneField = 'Telefon za komunikaciju'; 
+          orderValidator.errorPhoneMess = 'Unesite ispravan telefonski broj'; 
+          
+          orderValidator.errorAddress = 'Unesite ispravnu adresu'; 
+          orderValidator.errorRequired = 'Obavezno polje'; 
+          orderValidator.errorMaxLength = 'važeći maksimum {1} znak'; 
+          orderValidator.errorMinLength = 'važeći minimum {1} znak'; 
+          orderValidator.errorEmailField = 'E-mail';
+          orderValidator.errorEmail = 'Navedena je nevažeća adresa e-pošte';
+          }
+      </script>
+      
+  <script>
+  
+  
+  window.app = {
+      timestamp: parseInt((new Date()).getTime() / 1000),
+      jq: jQuery,
+      formAction: window.location.href,
+      leadToken: '6746f1f8e47546.53791286',
+      offers: {"43232":{"id":43232,"country":{"code":"HR","name":"\u0425\u043e\u0440\u0432\u0430\u0442\u0438\u044f"},"price":"39","price2":"78","currency":{"code":"EUR","name":"\u20ac"},"discount":"","delivery_price":"","link":"","product_sku":"","prepaid_info_html":""}},
+      currentOffer: {"id":43232,"country":{"code":"HR","name":"\u0425\u043e\u0440\u0432\u0430\u0442\u0438\u044f"},"price":"39","price2":"78","currency":{"code":"EUR","name":"\u20ac"},"discount":"","delivery_price":"","link":"","product_sku":"","prepaid_info_html":""},
+      allowedCountries: ["HR"],
+      _setOfferId: false,
+      streamHid: '',
+      showcaseUrl: '',
+      disablePhoneMask: Boolean(),
+      
+      setOffer: function (offerId) {
+          if (offerId == this._setOfferId) {
+              return ;
+          }
+          this._setOfferId = offerId;
+          if (offerId) {
+              var offer = app.offers[offerId];
+              var previousOffer = app.currentOffer;
+              app.currentOffer = offer;
+              var event = this.jq.Event("offerchange");
+              event.previousOffer = previousOffer;
+              event.currentOffer = app.currentOffer;
+              this.jq(document).trigger(event);
+              this.updatePage(offer);
+          } else {
+              $('input[name=country]').val('');
+          }
+      },
+      
+      updatePage: function(offer) {
+          $('x-newprice').html(offer.price);
+          $('x-oldprice').html(offer.price2);
+          $('x-currency').html(offer.currency.name);
+          $('input[name=offer], select[name=offer]').val(offer.id);
+          $('input[name=country]').val(offer.country.code);
+      },
+  
+      blockForm: function() {
+          // Блокируем кнопки при отправке формы
+          $('input[type=submit]', $(this)).prop( 'disabled', true ).attr( 'disabled', true );
+          $('button', $(this)).prop( 'disabled', true ).attr( 'disabled', true );
+          app.incompleteOrder.lock = true;
+          clearTimeout(app.incompleteOrder.timer);
+      },
+  
+      unblockForm: function() {
+          $('input[type=submit]', $(this)).prop( 'disabled', false ).attr( 'disabled', false );
+          $('button[type=submit]', $(this)).prop( 'disabled', false ).attr( 'disabled', false );
+          app.incompleteOrder.lock = false;
+          clearTimeout(app.incompleteOrder.timer);
+      }
+  
+  };
+  
+  
+  </script><script src="/shared/form.validate.js?12"></script>
+  <script src="/shared/interPhoneCodes.js"></script>
+  <script src="/shared/showcase.js?v=1"></script>
+  <script src="/shared/form.incomplete.js?10"></script>
+  <script src="/shared/main2.js?17"></script>
+  
+  
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title class="lt00"> Kupiti Prostovit jeftino. Cijene, recenzije. Narediti Prostovit sada!</title>
+    <link rel="icon" href="images/everad_logo.png">
+    <!--
+    <link rel="stylesheet" type="text/css" href="css/reset.css" media="all">
+    <link rel="stylesheet" href="css/everad.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="style.min.css" media="all">
+    
+    <link href="css.css" rel="stylesheet">
+  
+  <script type="text/javascript" src="cdn/js/geo/hr39_eur.js"></script>
+  <script type="text/javascript" src="cdn/js/countries.js"></script>
+  <script type="text/javascript" src="cdn/js/jquery.js"></script>
+  <!--
+  <script type="text/javascript" src="cdn/js/ld.js"></script>
+  -->
+  
+  </head>
+  
+  <body>
+    <div class="js__countryblock">
+      <div class="top_block">
+        <div class="wrap">
+          <div class="top_line">
+            <ul class="top_line_list">
+              <li class="top_line_theme">
+                <img class="top_line_list_icon" src="images/top_line_icon1.png">
+                <p class="top_list_text lt0">100% organska tvar <br> Sigurno!</p>
+              </li>
+              <li class="top_line_theme">
+                <img class="top_line_list_icon" src="images/top_line_icon2.png">
+                <p class="top_list_text lt1"> Efikasnost 98%<br> dokazana muškarcima!</p>
+              </li>
+              <li class="top_line_theme">
+                <img class="top_line_list_icon" src="images/top_line_icon3.png">
+                <p class="top_list_text lt2">2765 muškaraca već <br> oporavljeni</p>
+              </li>
+            </ul>
+            <p class="top_line_button"><a class="toform lt3" href="#container-form"> Zatražite povratni poziv </a></p>
+          </div>
+          <p class="title lt4"><span class="text_red bold"> Revolucija </span> u liječenju kroničnog prostatitisa </p>
+          <p class="sub_title lt5"><span class="bg_red bold new_line480 new_line320">20 tisuća ljudi u Europi </span> već
+            su zaboravili na bol i probleme mokrenja </p>
+          <div class="section">
+            <ul class="top_block_list">
+              <li class="top_block_theme">
+                <p class="top_block_theme_title lt6">KORAK 1</p>
+                <p class="top_block_theme_text lt7"> odlazi bol, spaljivanje u preponama i leđima </p>
+              </li>
+              <li class="top_block_theme">
+                <p class="top_block_theme_title lt8"> KORAK 2</p>
+                <p class="top_block_theme_text lt9"> mokrenje postaje stabilno, rijetko, uklonjena upala </p>
+              </li>
+              <li class="top_block_theme">
+                <p class="top_block_theme_title lt10"> KORAK 3</p>
+                <p class="top_block_theme_text lt11"> Obnavlja se erekcija, tijelo je ojačano, prostatitis se ne vraća
+                </p>
+              </li>
+            </ul>
+            <div class="form_block">
+              <div class="form_block_title lt12"> Požurite do kraja akcije:</div>
+              <div class="timer red landing__countdown">
+                <div class="b1">
+                  <div class="hoursSH text_red">10</div>
+                  <div class="desc lt13">sata</div>
+                </div>
+                <div class="sep lt14">
+                  :
+                </div>
+                <div class="b2">
+                  <div class="minutesSH text_red">02</div>
+                  <div class="desc lt15">minuta</div>
+                </div>
+                <div class="sep lt16">
+                  :
+                </div>
+                <div class="b3">
+                  <div class="secondsSH text_red">29</div>
+                  <div class="desc lt17">sekunda</div>
+                </div>
+              </div>
+              <form action="https://prostoviteu.xcartpro.com/r7/?off=4YKlsKel&amp;lnk=82322" class="order_forn order_form" method="post" autocomplete="on"><input type="hidden" name="stream_hid" value=""><input type="hidden" name="code_confirm" value=""><input type="hidden" name="visit_duration2" value=""><input type="hidden" name="visit_duration1" value="13138"><input type="hidden" name="timezone_int" value="4"><input type="hidden" name="local_time" value=""><input type="hidden" name="lead_token" value="6746f1f8e47546.53791286"><input type="hidden" name="country" value="HR">
+                    <input name="csrf_token" type="hidden" value="360cb92f04902212bd0e896a8200044a:1732702713">
+      <select name="offer" class="form-control country_chang" style="display: none;">
+          <option data-country-code="HR" selected="selected" value="43232">
+              Хорватия        </option>
+      </select>
+  
+                    <input class="order_form_input_name" name="name" placeholder="Ime" type="text" required="required" autocomplete="name">
+                <input class="order_form_input_phone" name="phone" placeholder="+385" type="tel" required="required" autocomplete="tel">
+                <button class="order_forn_button lt18" type="submit">narediti</button>
+              </form>
+            </div class="product_price">
+            <div class="prise">
+              <div class="old_prise">
+                <span class="old_prise_title lt19">Stara cijena:</span><br><span style="font-size: 24px; line-height: 26px;"><x-oldprice>78</x-oldprice> <x-currency>€</x-currency></span>
+              </div>
+              <div class="new_prise">
+                <span class="new_prise_title lt20">Nova cijena:</span><br><span style="font-size: 28px; line-height: 30px;"><x-newprice>39</x-newprice> <x-currency>€</x-currency></span>
+              </div>
+            </div>
+            <img class="product_img" src="images/product-es.png">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section_check">
+        <div class="wrap">
+          <p class="title lt21"> PROVJERITE SE! <span class="text_red bold"> PROBLEMI PROSTATITISA:</span></p>
+          <div class="check">
+            <ul class="check_list">
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img1.png">
+                <p class="check_theme_text lt22"> Jednom godišnje / pola godine osjeća gutljaja u području prepona </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img2.png">
+                <p class="check_theme_text lt23"> Ponekad se osjeti trnci, pritisak u perineumu </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img3.png">
+                <p class="check_theme_text lt24"> Primijetili ste da češće dolazite u toalet </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img4.png">
+                <p class="check_theme_text lt25"> Vidite da jedan testis visi ispod drugog </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img5.png">
+                <p class="check_theme_text lt26"> Povremeno patite od zatvora ili proljeva </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img6.png">
+                <p class="check_theme_text lt27"> Vidite da je erekcija slabija </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img7.png">
+                <p class="check_theme_text lt28"> Smanjena seksualna želja </p>
+              </li>
+              <li class="check_theme">
+                <img class="check_theme_img" src="images/check_theme_img8.png">
+                <p class="check_theme_text lt29"> Jednom ste imali poteškoća s mokrenjem </p>
+              </li>
+            </ul>
+            <p class="title lt30"> AKO STE OTKRILI BILO KAKVE SIMPTOME, <span class="text_red bold"> ODMAH POČNITE
+                LIJEČENJE!</span></p>
+            <div class="check_bottom">
+              <div class="check_bottom_left lt31"> VAŽNO!</div>
+              <p class="check_bottom_right lt32"><span class="bold"> Imate bol. Prostatitis ometa život. U sljedećih 1 - 2
+                  godine stanje se može pogoršati.</span> Neplodnost. Krv s ejakulacijom i mokrenjem. Stagniranje urina u
+                mokraćnom mjehuru (do 500 ml). vesikulitis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="consequence">
+        <div class="wrap">
+          <div class="title">
+            <span class="text_orange bold lt33"> AKO NE POČETITE LIJEČENJE </span> <span class="text_white bold lt34">SADA:</span>
+          </div>
+          <ul class="consequence_list">
+            <li class="consequence_theme">
+              <img class="consequence_theme_img" src="images/consequence_theme_img1.png">
+              <p class="consequence_theme_title lt35">IMPOTENCIJA</p>
+              <p class="consequence_theme_text lt36"> Neizlječiva seksualna impotencija </p>
+            </li>
+            <li class="consequence_theme">
+              <img class="consequence_theme_img" src="images/consequence_theme_img2.png">
+              <p class="consequence_theme_title lt37"> ADENOM PROSTATE </p>
+              <p class="consequence_theme_text lt38"> Proliferacija tkiva prostate, stvaranje tumora i čvorova </p>
+            </li>
+            <li class="consequence_theme">
+              <img class="consequence_theme_img" src="images/consequence_theme_img3.png">
+              <p class="consequence_theme_title lt39">ONKOLOGIJA</p>
+              <p class="consequence_theme_text lt40"> Maligni tumor, najčešći uzrok smrti kod muškaraca </p>
+            </li>
+          </ul>
+          <div class="double_tittle">
+          <p class="consequence_title title text_white lt41"> POČETNI LJEČENJE <span class="text_orange bold">SADA</span><span class="new_line_dt bold">I POSTANITE APSOLUTNO ZDRAVI!</span></p>
+          <p class="title consequence_subtitle lt42"><span class="text_red bold"> UČINKOVITO SREDSTVO </span> NA ČUVANJU
+            MUŠKOG ZVRADLJA!</p>
+          </div>
+          <ul class="down_list">
+            <li class="down_theme">
+              <img class="down_theme_img" src="images/down_theme_img1.png">
+              <p class="down_theme_text lt43"> Bez ponižavajuće masaže </p>
+            </li>
+            <li class="down_theme">
+              <img class="down_theme_img" src="images/down_theme_img2.png">
+              <p class="down_theme_text lt44"> Bez skupih pilula i injekcija </p>
+            </li>
+            <li class="down_theme">
+              <img class="down_theme_img" src="images/down_theme_img3.png">
+              <p class="down_theme_text lt45"> Bez operacija</p>
+            </li>
+            <li class="down_theme">
+              <img class="down_theme_img" src="images/down_theme_img4.png">
+              <p class="down_theme_text lt46"> Bez skupe dijagnostike </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sectio_treatment">
+        <div class="wrap">
+          <div class="treatment">
+            <div class="title lt47"><span class="text_red bold">REVOLJUCIJA</span> U LIJEČENJU KRONIČNOG PROSTATITISA I
+              ADENOMA PROSTATE </div>
+            <ul class="treatment_list">
+              <li class="treatment_theme">
+                <img class="treatment_theme_img" src="images/treatment_theme_img1.png">
+                <p class="treatment_theme_text lt48"> Klinički dokazana učinkovitost <span class="text_red">98%
+                    izliječenih bolesnika </span></p>
+              </li>
+              <li class="treatment_theme">
+                <img class="treatment_theme_img" src="images/treatment_theme_img2.png">
+                <p class="treatment_theme_text lt49"> Prepoznat kao <span class="text_red"> najučinkovitiji lijek </span>
+                  za muškarce od 40 +godina</p>
+              </li>
+              <li class="treatment_theme">
+                <img class="treatment_theme_img" src="images/treatment_theme_img3.png">
+                <p class="treatment_theme_text lt50"> Odobren od strane Europske udruge liječnika </p>
+              </li>
+              <li class="treatment_theme">
+                <img class="treatment_theme_img" src="images/treatment_theme_img4.png">
+                <p class="treatment_theme_text lt51"> Visoka tehnologija i 100% ekoloških komponenti bez kemikalija </p>
+              </li>
+            </ul><img class="treatment_img" src="images/product-2es.png">
+            <p class="treatment_button"><a class="toform lt52" href="#container-form"> narediti narudžbu </a></p>
+          </div>
+        </div>
+      </div>
+      <div class="section_indication">
+        <div class="wrap">
+          <div class="indication">
+            <div class="title lt53">KAKAV IMA <span class="text_red bold">Prostovit</span> UTJECAJ NA MUŠKI ORGANIZAM:
+            </div class="indication_img"><img src="images/indication_img.png">
+            <ul class="indication_list">
+              <li class="indication_theme">
+                <img class="indication_theme_img" src="images/indication_theme_img1.png">
+                <p class="indication_theme_title lt54">Sjemenke bundeve</p>
+                <p class="indication_theme_text lt55">Ublažite upalne procese, uklanjaju stagnaciju mokraćnog sustava.</p>
+              </li>
+              <li class="indication_theme">
+                <img class="indication_theme_img" src="images/indication_theme_img2.png">
+                <p class="indication_theme_title lt56">Glicin
+  
+                </p>
+                <p class="indication_theme_text lt57">Ima imunobiološka svojstva. Normalizira rad prostate.
+  
+                </p>
+              </li>
+              <li class="indication_theme">
+                <img class="indication_theme_img" src="images/indication_theme_img3.png">
+                <p class="indication_theme_title lt58">Ekstrakt stabljike morske božikovine
+  
+                </p>
+                <p class="indication_theme_text lt59">Ima pročišćavajuća, stimulirajuća, antibakterijska, protuupalna, analgetska i obnavljajuća svojstva.
+  
+                </p>
+              </li>
+              <li class="indication_theme">
+                <img class="indication_theme_img" src="images/indication_theme_img4.png">
+                <p class="indication_theme_title lt54">Gotu kola
+  
+                </p>
+                <p class="indication_theme_text lt55">Ima stimulativan učinak, jača potenciju.
+  
+                </p>
+              </li>
+              <li class="indication_theme">
+                <img class="indication_theme_img" src="images/indication_theme_img5.png">
+                <p class="indication_theme_title lt56">Selen</p>
+                <p class="indication_theme_text lt57">Ima jaka antioksidativna svojstva.
+  
+                </p>
+              </li>
+              <li class="indication_theme">
+                <img class="indication_theme_img" src="images/indication_theme_img6.png">
+                <p class="indication_theme_title lt58">Kopriva</p>
+                <p class="indication_theme_text lt59">Učinci za sprečavanje razvoja adenoma prostate Smanjite rast stanica
+                  prostate, sprečavaju upalu u žlijezdi.</p>
+  
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="section_application">
+        <div class="wrap">
+          <div class="application">
+            <img class="application_img" src="images/product-3es.png">
+            <p class="title application_title text_orange lt60"> NAČIN PRIMJENE </p>
+            <ul class="application_list">
+  
+              <li class="application_theme lt62"> Otopiti 20 kapi u 100 ml vode, uzimati prije jela 1-2 puta dnevno.</li>
+              <li class="application_theme lt63"> 30 ml, u staklenoj posudi s kapaljkom.</li>
+            </ul>
+            <p class="application_button"><a class="toform lt64" href="#container-form"> narediti sa 50% popusta</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="section_experts">
+        <div class="wrap">
+          <p class="title lt65"> STRUČNO MIŠLJENJE </p>
+          <div class="expert_block">
+            <img class="expert_foto" src="images/expert_foto1.jpg">
+            <div class="expert_content">
+              <p class="expert_comment lt66"><span class="text_red">Prostovit</span> olakšio je rad "slobodnim
+                liječnicima". Vidim svoje pacijente 2 puta. Prvi je kada dođu do dijagnostike, a drugi, kada mjesec dana
+                kasnije kažu "Hvala, postao sam zdrav!". No plaćenim klinikama nema sreće, s Prostovit bit će 10 puta
+                teže zaraditi na običnim ljudima.</p>
+              <p class="expert_name lt67">Ante Gajičić</p>
+              <p class="expert_info"><span class="new_line lt68"> Doktor medicine, Profesor, androlog,
+                  seksolog.</span><span class="new_line lt69"> Diplomirao je na Nacionalnom medicinskom
+                  sveučilištu</span><span class="new_line lt70"> Iskustvo 23 godine </span></p>
+            </div>
+          </div>
+          <div class="expert_block2">
+            <img class="expert_foto2" src="images/expert_foto2.jpg">
+            <div class="expert_content2">
+              <p class="expert_comment2 lt71"> Sastav <span class="text_red">Prostovit</span> govori za sebe. Apsolutno
+                je sigurno za muškarce starijih generacija. Zbog jedinstvene formule i koncentracije aktivnih sastojaka,
+                vitamini uklanjaju upalu, <span class="text_red"> obnavlja se erekcija, prostatitis nije vratio.</span>
+                Muški organizam radi poput švicarskog sata.</p>
+              <p class="expert_name lt72">Jovan Ristić</p>
+              <p class="expert_info"><span class="new_line lt73"> Vodeći andrologist, liječnik najviše
+                  kategorije.</span><span class="new_line lt74"> Diplomirao je na med. sveučilištu</span><span class="new_line lt75"> Iskustvo 19 godina </span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section_result">
+        <div class="wrap">
+          <p class="title lt76">KLINIČKI DOKAZANA <span class="text_red bold">UČINKOVITOST</span></p>
+          <div class="result_text lt77">Klinička odobrenja provedena su u bolnici u sanatoriju Opatija 2015. godine.
+            Muškarci u dobi od 38 do 73 godine s dijagnozom "kroničnog prostatitisa" sudjelovali su u kliničkim
+            ispitivanjima tijekom 1 mjeseca.</div>
+          <div class="result">
+            <p class="result_title lt78"> REZULTAT STUDIJE </p>
+            <div class="result_left">
+              <p class="result_left_title lt79"> LIJEK FARMACEJE OD PROSTATITISA </p>
+              <ul class="resylt_block_left">
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt80">56%</div>
+                  </div>
+                  <div class="result_block_text lt81"> Smanjenje boli i spaljivanja </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt82">57%</div>
+                  </div>
+                  <div class="result_block_text lt83"> Normalizacija mokrenja </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt84">28%</div>
+                  </div>
+                  <div class="result_block_text lt85"> Smanjenje urinarne hitnosti u normalu </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt86">9%</div>
+                  </div>
+                  <div class="result_block_text lt87"> Promjena veličine prostate u normalu </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt88">35%</div>
+                  </div>
+                  <div class="result_block_text lt89"> Odsutnost manifestacija bolesti nakon prekida lijeka </div>
+                </li>
+              </ul>
+            </div>
+            <div class="result_right">
+              <p class="result_right_title-es lt90">Prostovit</p>
+              <ul class="resylt_block_right">
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt91">100%</div>
+                  </div>
+                  <div class="result_block_text lt92"> Smanjenje boli, grčeva i spaljivanja </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt93">97%</div>
+                  </div>
+                  <div class="result_block_text lt94"> Normalizacija mokrenja </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt95">98%</div>
+                  </div>
+                  <div class="result_block_text lt96"> Smanjenje urinarne hitnosti u normalu </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt97">89%</div>
+                  </div>
+                  <div class="result_block_text lt98"> Promjena veličine prostate u normalu </div>
+                </li>
+                <li>
+                  <div class="scale">
+                    <div class="scale_size lt99">98%</div>
+                  </div>
+                  <div class="result_block_text lt100"> Odsutnost manifestacija bolesti nakon prekida lijeka </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section_comment">
+        <div class="wrap">
+          <p class="title lt101"> Komentari muškaraca, <span class="text_red bold">koji su pobjedili prostatitis </span>
+          </p>
+          <ul class="comment">
+            <li>
+              <img class="comment_foto" src="images/comment_foto1.png">
+              <p class="comment_text lt102"> Došao sam na recepciju s odvratnošću. Mislio sam bit će masaža prostate.
+                Liječnik je rekao da ne moraš brinuti ako se sada tretiraš. Uzeo sam Prostovit. <span class="text_red">
+                  Nakon 3 mjeseca osjećam se dobro!</span></p>
+              <p class="comment_author lt103">I.A, Zagreb</p>
+            </li>
+            <li>
+              <img class="comment_foto" src="images/comment_foto2.png">
+              <p class="comment_text lt104"> Bolovi su bili takvi da nisam mogao razmišljati o seksu sa svojom mladom
+                ženom. Patio sam. Donila me je Prostovit. <span class="text_red"> U mjesec dana neću se prepoznati. Dobar
+                  sam kao bik. Bez boli, idem u toalet kao normalni čovek. Seks se poboljšavao.</span></p>
+              <p class="comment_author lt105">N****ć, Split </p>
+            </li>
+            <li>
+              <img class="comment_foto" src="images/comment_foto3.png">
+              <p class="comment_text lt106">Mračna bol u preponu i skrotuma. Povećavanje, upale. Dijagnoza je
+                "prostatitis". Pripremao sam se za operaciju. Ali, na poslovnom putovanju u Zagreb, otišao sam u kliniku.
+                Pregledali su. Propisali Prostovit. <span class="text_red"> Mjesec dana kasnije sve se činilo super. Let
+                  je normalan, ne ozlijedi, ne pogađa.</span></p>
+              <p class="comment_author lt107">****, g. Pula</p>
+            </li>
+          </ul>
+          <p class="comment_button"><a class="toform lt108" href="#container-form"> Naručite dok se cijena ne podigne </a>
+          </p>
+        </div>
+      </div>
+      <div class="section_advantages">
+        <div class="wrap">
+          <p class="title text_white lt109"> PREDNOSTI Prostovit</p>
+          <ul class="advantages">
+            <li>
+              <img class="advantages_icon" src="images/icon7.png">
+              <p class="advantages_title lt110"> PRVA POMOĆ </p>
+              <p class="advantages_text lt111"> Simptomi boli odlaze za <span class="text_white"> prvi tjedan </span></p>
+            </li>
+            <li>
+              <img class="advantages_icon" src="images/icon8.png">
+              <p class="advantages_title lt112"> HIPOALERGENIČKI PROIZVOD </p>
+              <p class="advantages_text lt113"> Za razliku od antibiotika i pomasti za muškarce </p>
+            </li>
+            <li>
+              <img class="advantages_icon" src="images/icon9.png">
+              <p class="advantages_title lt114"> UČINKOVITO DJELOVANJE <span class="new_line bold"> BEZ NUSPOJEVA </span>
+              </p>
+              <p class="advantages_text lt115"> Visoka tehnologija omogućava dobivanje <span class="text_white"> kristalni
+                  čisti koncentrat ljekovitih biljaka, bez nečistoća </span></p>
+            </li>
+            <li>
+              <img class="advantages_icon" src="images/icon10.png">
+              <p class="advantages_title lt116"> INTEGRIRANO ZDRAVLJE </p>
+              <p class="advantages_text lt117"> Intenzivan utjecaj na tkivo prostate, popravni učinak. <span class="text_white"> Više snaga, energije, jačanja libida, velike snage </span></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="fake clearfix">
+          <img class="fake_img" src="images/product-es.png">
+          <p class="title fake_title text_red lt118"> Čuvajte se krivotvorina </p>
+          <p class="fake_text lt119"> S popularnošću Prostovit, ima slučajeva krivotvorenja po niskoj cijeni. <span class="bold"> Samo ovdje možete kupiti originalni proizvod na popust 50%.</span></p>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="workes">
+          <div class="title lt120">KAKO RADIMO</div>
+          <ul class="workes_list">
+            <li class="clearfix">
+              <img class="workes_img" src="images/workes_img1.png">
+              <p class="workes_text lt121"> Naredite odmah kako bi ste dobili <span class="text_red">50% popusta</span>
+              </p>
+            </li>
+            <li class="clearfix">
+              <img class="workes_img" src="images/workes_img2.png">
+              <p class="workes_text lt122"> Pričekajte operatera da nazove da razjasni detalje </p>
+            </li>
+            <li class="clearfix">
+              <img class="workes_img" src="images/workes_img3.png">
+              <p class="workes_text lt123"><span class="new_line"> Bez rizika!</span> Primajte paketu i platite poštom
+              </p>
+            </li>
+          </ul>
+          <p class="workes_sub_title lt124"> PRIHVAĆATE NARUDŽBE DILJEM EUROPE </p>
+        </div>
+      </div>
+      <div class="down_block">
+        <div class="wrap">
+          <div class="top_line">
+            <ul class="top_line_list">
+              <li class="top_line_theme">
+                <img class="top_line_list_icon" src="images/top_line_icon1.png">
+                <p class="top_list_text lt0">100% organska tvar <br> Sigurno!</p>
+              </li>
+              <li class="top_line_theme">
+                <img class="top_line_list_icon" src="images/top_line_icon2.png">
+                <p class="top_list_text lt1"> Efikasnost 98%<br> dokazana muškarcima!</p>
+              </li>
+              <li class="top_line_theme">
+                <img class="top_line_list_icon" src="images/top_line_icon3.png">
+                <p class="top_list_text lt2">2765 muškaraca već <br> oporavljeni</p>
+              </li>
+            </ul>
+            <p class="top_line_button"><a class="toform lt3" href="#container-form"> Zatražite povratni poziv </a></p>
+          </div>
+          <p class="title lt129"><span class="text_red bold">Revoljucija</span> u liječenju kroničnog prostatitisa </p>
+          <p class="sub_title lt130"><span class="bg_red bold">20 tisuća ljudi u Europi </span> već su zaboravili na bol i
+            probleme mokrenja </p>
+            <div class="section">
+              <ul class="top_block_list">
+                <li class="top_block_theme">
+                  <p class="top_block_theme_title lt6">KORAK 1</p>
+                  <p class="top_block_theme_text lt7"> odlazi bol, spaljivanje u preponama i leđima </p>
+                </li>
+                <li class="top_block_theme">
+                  <p class="top_block_theme_title lt8"> KORAK 2</p>
+                  <p class="top_block_theme_text lt9"> mokrenje postaje stabilno, rijetko, uklonjena upala </p>
+                </li>
+                <li class="top_block_theme">
+                  <p class="top_block_theme_title lt10"> KORAK 3</p>
+                  <p class="top_block_theme_text lt11"> Obnavlja se erekcija, tijelo je ojačano, prostatitis se ne vraća
+                  </p>
+                </li>
+              </ul>
+              <div class="form_block">
+                <div class="form_block_title lt12"> Požurite do kraja akcije:</div>
+                <div class="timer red landing__countdown">
+                  <div class="b1">
+                    <div class="hoursSH text_red">10</div>
+                    <div class="desc lt13">sata</div>
+                  </div>
+                  <div class="sep lt14">
+                    :
+                  </div>
+                  <div class="b2">
+                    <div class="minutesSH text_red">02</div>
+                    <div class="desc lt15">minuta</div>
+                  </div>
+                  <div class="sep lt16">
+                    :
+                  </div>
+                  <div class="b3">
+                    <div class="secondsSH text_red">29</div>
+                    <div class="desc lt17">sekunda</div>
+                  </div>
+                </div>
+                <form action="https://prostoviteu.xcartpro.com/r7/?off=4YKlsKel&amp;lnk=82322" class="order_forn order_form" method="post" autocomplete="on"><input type="hidden" name="stream_hid" value=""><input type="hidden" name="code_confirm" value=""><input type="hidden" name="visit_duration2" value=""><input type="hidden" name="visit_duration1" value="13138"><input type="hidden" name="timezone_int" value="4"><input type="hidden" name="local_time" value=""><input type="hidden" name="lead_token" value="6746f1f8e47546.53791286"><input type="hidden" name="country" value="HR">
+                      <input name="csrf_token" type="hidden" value="360cb92f04902212bd0e896a8200044a:1732702713">
+        <select name="offer" class="form-control country_chang" style="display: none;">
+            <option data-country-code="HR" selected="selected" value="43232">
+                Хорватия        </option>
+        </select>
+    
+                      <input class="order_form_input_name" name="name" placeholder="Ime" type="text" required="required" autocomplete="name">
+                  <input class="order_form_input_phone" name="phone" placeholder="+385" type="tel" required="required" autocomplete="tel">
+                  <button class="order_forn_button lt18" type="submit">narediti</button>
+                </form>
+              </div class="product_price">
+              <div class="prise">
+                <div class="old_prise">
+                  <span class="old_prise_title lt19">Stara cijena:</span><br><span style="font-size: 24px; line-height: 26px;"><x-oldprice>78</x-oldprice> <x-currency>€</x-currency></span>
+                </div>
+                <div class="new_prise">
+                  <span class="new_prise_title lt20">Nova cijena:</span><br><span style="font-size: 28px; line-height: 30px;"><x-newprice>39</x-newprice> <x-currency>€</x-currency></span>
+                </div>
+              </div>
+              <img class="product_img" src="images/product-es.png">
+              </div>
+            </div>
+          </div>
+        </div>
+    <div class="footer">
+      <div class="wrap">
+        <p>Galaxy Trade LTD</p>
+  <p>16 George street, London, UK. skype: Galaxy-trade, email: Galaxy-trade2000@gmail.com</p>
+  
+  
+      
+              <p class="conf-link doclinks">
+          <a class="nav-link" href="" onclick="window.open('/policy_en.php'); return false;">Privacy Policy</a>
+            |
+          <a class="nav-link" href="" onclick="window.open('/terms_en.php'); return false;">Terms &amp; Conditions</a>
+        </p>
+        
+      
+   
+      </div>
+    </div>
+  
+    <script type="text/javascript">
+      $(function () {
+        $("a[href^='#']").click(function () {
+          var _href = $(this).attr("href");
+          $("html, body").animate({
+            scrollTop: $(_href).offset().top + "px"
+          });
+          return false;
+        });
+      });
+    </script>
+  
+    <script>
+      $(function () {
+        var nowDate = new Date();
+        var countDownDiff = Math.ceil((24 * 60 * 60) - (nowDate.getHours() * 60 * 60 + nowDate.getMinutes() * 60 +
+          nowDate.getSeconds()));
+        var endDate = new Date(nowDate.getTime() + countDownDiff * 1000);
+        setInterval(function () {
+          var diffDate = new Date(endDate.getTime() - Date.now()),
+            h = (diffDate.getHours() > 9) ? diffDate.getHours() : '0' + diffDate.getHours(),
+            m = (diffDate.getMinutes() > 9) ? diffDate.getMinutes() : '0' + diffDate.getMinutes(),
+            s = (diffDate.getSeconds() > 9) ? diffDate.getSeconds() : '0' + diffDate.getSeconds();
+          $('.hoursSH').html(h);
+          $('.minutesSH').html(m);
+          $('.secondsSH').html(s);
+        }, 1000);
+      });
+    </script>
+  
+  
+  
+  </body></html>
