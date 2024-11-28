@@ -3,6 +3,10 @@ body {
     color: #2e2e2e;
 }
 
+ul {
+    list-style: none;
+}
+
 .ac_footer {
         position: relative;
         top: 10px;
@@ -97,6 +101,9 @@ input:focus {
 
 .top_line {
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .top_line_list {
@@ -119,7 +126,7 @@ input:focus {
 
 .top_line_list_icon {
     float: left;
-    padding: 6px 0 0 0;
+    padding: 25px 0 0 0;
 }
 
 .top_list_text {
@@ -169,9 +176,12 @@ input:focus {
 
 .section {
     position: relative;
+    margin-left: 3%;
     display: grid;
+    width: 100%;
     grid-template-columns: repeat(2, 1fr);
     gap: 6.5%;
+    justify-content: space-around;
 }
 
 .section:after {
@@ -185,7 +195,7 @@ input:focus {
 .top_block_list {
     max-width: 320px;
     float: left;
-    margin-left: 50px;
+    margin-left: 100px;
     list-style: none;
 }
 
@@ -652,6 +662,12 @@ input:focus {
     font-size: 20px;
     line-height: 22px;
 }
+
+.expert_content, .expert_content2 {
+    border: 2px solid; /* Базовый размер рамки */
+    border-image: linear-gradient(45deg, rgba(0, 198, 255, 0.5), rgba(0, 114, 255, 0.5)) 1; /* Полупрозрачный градиент */
+}
+
 
 .sectio_treatment {
     background: url('../images/treatment_bg.jpg') top center no-repeat;
